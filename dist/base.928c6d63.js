@@ -129,7 +129,7 @@ function getData() {
 }
 function _getData() {
   _getData = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var url, promise, municipality_json, mun, pop;
+    var url, promise, municipality_json, url2, promise2, employment_json, n, mun, pop, emp, x, tr, td_mun, td_pop, td_emp, td_pre;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -142,28 +142,68 @@ function _getData() {
           return promise.json();
         case 6:
           municipality_json = _context.sent;
+          url2 = "https://statfin.stat.fi/PxWeb/sq/5e288b40-f8c8-4f1e-b3b0-61b86ce5c065";
+          _context.next = 10;
+          return fetch(url2);
+        case 10:
+          promise2 = _context.sent;
+          _context.next = 13;
+          return promise2.json();
+        case 13:
+          employment_json = _context.sent;
+          n = 0;
           console.log(municipality_json);
           mun = municipality_json.dataset.dimension.Alue.category.label;
           pop = municipality_json.dataset.value;
-          console.log(mun);
+          emp = employment_json.dataset.value;
+          console.log(mun["SSS"]);
           console.log(pop);
-          pop.forEach(function (label, index) {
-            var tr = document.createElement("tr");
-            var td_mun = document.createElement("td");
-            var td_pop = document.createElement("td");
-            td_mun.innerText = mun[index];
-            td_pop.innerText = label;
+          for (x in mun) {
+            tr = document.createElement("tr");
+            td_mun = document.createElement("td");
+            td_pop = document.createElement("td");
+            td_emp = document.createElement("td");
+            td_pre = document.createElement("td");
+            td_mun.innerText = mun[x];
+            td_pop.innerText = pop[n];
+            td_emp.innerText = emp[n];
+            td_pre.innerText = average(pop[n], emp[n]);
+            if (average(pop[n], emp[n]) > 45) {
+              tr.className = "green";
+            }
+            if (average(pop[n], emp[n]) < 23) {
+              tr.className = "red";
+            }
             tr.appendChild(td_mun);
             tr.appendChild(td_pop);
+            tr.appendChild(td_emp);
+            tr.appendChild(td_pre);
             tBody.appendChild(tr);
-          });
-        case 13:
+            n++;
+          }
+          /*
+          pop.forEach((label, index) => {
+              let tr = document.createElement("tr");
+              let td_mun = document.createElement("td");
+              let td_pop = document.createElement("td");
+            
+              td_mun.innerText = mun[index];
+              td_pop.innerText = label;
+            
+              tr.appendChild(td_mun);
+              tr.appendChild(td_pop);
+              tBody.appendChild(tr);
+            });*/
+        case 22:
         case "end":
           return _context.stop();
       }
     }, _callee);
   }));
   return _getData.apply(this, arguments);
+}
+function average(pop, emp) {
+  return (emp / pop * 100).toFixed(2);
 }
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
