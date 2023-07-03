@@ -38,10 +38,10 @@ tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.green {
+tr.green {
   background-color: #abffbd;
 }
 
-.red {
+tr.red {
   background-color: #ff9e9e;
 }
